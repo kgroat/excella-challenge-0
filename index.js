@@ -60,8 +60,6 @@ function testLetters(str, letters){
     return true
 }
 
-
-
 app.post('/palindrome', function(req, res){
     var output = []
     var i, j, str, works
@@ -75,6 +73,24 @@ app.post('/palindrome', function(req, res){
     }
     res.send(output)
 })
+
+app.post('/fibonacci', function(req, res){
+    var output = []
+    var i
+    for(i=0; i<req.body.length; i++){
+        output.push(fib(1, 1, req.body[i]))
+    }
+    res.send(output)
+})
+
+function fib(one, two, remaining){
+    if(remaining <= 1){
+        return one
+    } else if(remaining === 2){
+        return two
+    }
+    return fib(two, one+two, remaining-1)
+}
 
 app.listen(process.env.PORT || 3000, function(){
     console.log('it works')
