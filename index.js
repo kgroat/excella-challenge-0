@@ -142,7 +142,7 @@ function getNumeral(num){
         }
         num = num - count * numeralMap[curr]
         if(num < 0){
-            for(j=numerals.indexOf(curr)+1; j<numerals.length; j++){
+            for(j=numerals.indexOf(prev); j<numerals.length; j++){
                 curr2 = numerals[j]
                 if(num + numeralMap[curr2] >= 0){
                     str = curr2 + str
