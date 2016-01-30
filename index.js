@@ -92,6 +92,67 @@ function fib(one, two, remaining){
     return fib(two, one+two, remaining-1)
 }
 
+var numerals = 'MDCLXVI*'
+
+var numeralMap = {
+    'M': 1000,
+    'D': 500,
+    'C': 100,
+    'L': 50,
+    'X': 10,
+    'V': 5,
+    'I': 1,
+    '*': 0,
+}
+
+app.post('/numerals', function(req, res){
+    var output = []
+    var i, num, str, prev, idx
+    for(i=0; i<req.body.length; i++){
+        str = ''
+        prev = '*'
+        num = req.body[i]
+        console.log(num)
+        idx = 0
+        while(num > 0){
+            var ret = getNumeral(num)
+            num = ret[0]
+            str += ret[1]
+        }
+        output.push(str)
+    }
+    res.send(output)
+})
+
+function getNumeral(num){
+    var i, j, curr, curr2, add, count, str, prev, prev2
+    str = ''
+    for(i=0; i<numerals.length; i++){
+        prev = numerals[i+1] || '*'
+        prev2 = numerals[i+2] || '*'
+        curr = numerals[i]
+        add = numeralMap[curr] === 2*numeralMap[prev] ? numeralMap[prev2] : numeralMap[prev]
+        count = parseInt((num + add) / numeralMap[curr])
+        for(j=0; j<count; j++){
+            str = str + curr
+        }
+        num = num - count * numeralMap[curr]
+        if(num < 0){
+            for(j=0; j<numerals.length - numerals.indexOf(curr); j++){
+                curr2 = numerals[numerals.length - 1 - j]
+                if(num + numeralMap[curr2] >= 0){
+                    str = curr2 + str
+                    num = num + numeralMap[curr2]
+                    break;
+                }
+            }
+        }
+        if(count > 0){
+            return [num, str]
+        }
+    }
+}
+
 app.listen(process.env.PORT || 3000, function(){
     console.log('it works')
 })
