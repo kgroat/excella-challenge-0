@@ -60,6 +60,22 @@ function testLetters(str, letters){
     return true
 }
 
+
+
+app.post('/palindrome', function(req, res){
+    var output = []
+    var i, j, list, first, letters, works
+    for(i=0; i<req.body.length; i++){
+        str = req.body[i]
+        works = true
+        for(j=0; j<str.length/2; j++){
+            works = works && str[j] === str[str.length-j]
+        }
+        output.push(works)
+    }
+    res.send(output)
+})
+
 app.listen(process.env.PORT || 3000, function(){
     console.log('it works')
 })
