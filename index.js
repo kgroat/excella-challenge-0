@@ -16,16 +16,12 @@ app.get('/', function(req, res){
 })
 
 app.post('/anagram', function(req, res){
-    console.log(req.body)
-    console.log(req.body.length)
     var output = []
     var i, j, list, first, letters, works
     for(i=0; i<req.body.length; i++){
         console.log(i, req.body[i])
         list = req.body[i]
         first = list[0]
-        console.log(list)
-        console.log(first)
         works = true
         letters = getLetterCounts(first)
         for(j=1; j<list.length; j++){
