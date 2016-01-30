@@ -24,6 +24,7 @@ app.post('/anagram', function(req, res){
         first = list[0]
         works = true
         letters = getLetterCounts(first)
+        console.log(i, list, letters)
         for(j=1; j<list.length; j++){
             works = works && testLetters(list[j], letters)
         }
@@ -35,13 +36,16 @@ app.post('/anagram', function(req, res){
 function getLetterCounts(str){
     var letters = {}
     for(var i=0; i<str.length; i++){
-        letters[str[i]] = (letters[str[i]] || 0) + 1;
+        if(str[i] != ' ') {
+            letters[str[i]] = (letters[str[i]] || 0) + 1;
+        }
     }
     return letters
 }
 
 function testLetters(str, letters){
     var otherLetters = getLetterCounts(str)
+    console.log('  -- ', str, otherLetters)
     var l
     for(l in letters){
         if(otherLetters[l] != letters[l]){
