@@ -129,17 +129,21 @@ function getNumeral(num){
     str = ''
     for(i=0; i<numerals.length; i++){
         prev = numerals[i+1] || '*'
-        prev2 = numerals[i+2] || '*'
         curr = numerals[i]
-        add = numeralMap[curr] === 2*numeralMap[prev] ? numeralMap[prev2] : numeralMap[prev]
-        count = parseInt((num + add) / numeralMap[curr])
+        console.log(curr, numeralMap[curr].toString(10), numeralMap[curr].toString(10)[0])
+        console.log(prev)
+        if(numeralMap[curr].toString(10)[0] == '1'){
+            prev = numerals[i+2] || '*'
+            console.log('yup', prev)
+        }
+        count = parseInt((num + numeralMap[prev]) / numeralMap[curr])
         for(j=0; j<count; j++){
             str = str + curr
         }
         num = num - count * numeralMap[curr]
         if(num < 0){
-            for(j=0; j<numerals.length - numerals.indexOf(curr); j++){
-                curr2 = numerals[numerals.length - 1 - j]
+            for(j=numerals.indexOf(curr)+1; j<numerals.length; j++){
+                curr2 = numerals[j]
                 if(num + numeralMap[curr2] >= 0){
                     str = curr2 + str
                     num = num + numeralMap[curr2]
