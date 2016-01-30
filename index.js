@@ -64,12 +64,12 @@ function testLetters(str, letters){
 
 app.post('/palindrome', function(req, res){
     var output = []
-    var i, j, list, first, letters, works
+    var i, j, str, works
     for(i=0; i<req.body.length; i++){
         str = req.body[i]
         works = true
         for(j=0; j<str.length/2; j++){
-            works = works && str[j] === str[str.length-j]
+            works = works && str[j] === str[str.length-1-j]
         }
         output.push(works)
     }
