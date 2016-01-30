@@ -3,22 +3,29 @@
  */
 
 var express = require('express')
+var bodyParser = require('body-parser')
+var multer = require('multer')
 var app = express()
+var upload = multer()
+
+app.use(bodyParser.json({ strict: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function(req, res){
     res.send('hello, world')
 })
 
 app.post('/anagram', function(req, res){
+    console.log(req.body)
     var output = []
     var i, j, list, first, letters, works
-    for(i=0; i<req.params.length; i++){
-        list = req.params[i]
+    for(i=0; i<req.body.length; i++){
+        list = req.body[i]
         first = list[0]
         works = true
         letters = getLetterCounts(first)
         for(j=1; j<list.length; j++){
-            works &= testLetters(list[i], letters)
+            works = works && testLetters(list[i], letters)
         }
         output.push(works)
     }
@@ -49,4 +56,6 @@ function testLetters(str, letters){
     return true
 }
 
-app.listen(80)
+app.listen(80, function(){
+    console.log('it works')
+})
