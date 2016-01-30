@@ -114,27 +114,28 @@ app.post('/numerals', function(req, res){
         num = req.body[i]
         console.log(num)
         idx = 0
+        console.log(num)
         while(num > 0){
             var ret = getNumeral(num)
             num = ret[0]
             str += ret[1]
+            console.log(ret[1])
+            console.log(num)
         }
+        console.log('done')
         output.push(str)
     }
     res.send(output)
 })
 
 function getNumeral(num){
-    var i, j, curr, curr2, add, count, str, prev, prev2
+    var i, j, curr, curr2, count, str, prev
     str = ''
     for(i=0; i<numerals.length; i++){
         prev = numerals[i+1] || '*'
         curr = numerals[i]
-        console.log(curr, numeralMap[curr].toString(10), numeralMap[curr].toString(10)[0])
-        console.log(prev)
         if(numeralMap[curr].toString(10)[0] == '1'){
             prev = numerals[i+2] || '*'
-            console.log('yup', prev)
         }
         count = parseInt((num + numeralMap[prev]) / numeralMap[curr])
         for(j=0; j<count; j++){
@@ -145,7 +146,7 @@ function getNumeral(num){
             for(j=numerals.indexOf(prev); j<numerals.length; j++){
                 curr2 = numerals[j]
                 if(num + numeralMap[curr2] >= 0){
-                    str = curr2 + str
+                    str = str.substring(0, str.length-1) + curr2 + str[str.length-1]
                     num = num + numeralMap[curr2]
                     break;
                 }
