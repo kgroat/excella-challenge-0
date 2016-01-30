@@ -5,6 +5,10 @@
 var express = require('express')
 var app = express()
 
+app.get('/', function(req, res){
+    res.send('hello, world')
+})
+
 app.post('/anagram', function(req, res){
     var output = []
     var i, j, list, first, letters, works
@@ -18,7 +22,7 @@ app.post('/anagram', function(req, res){
         }
         output.push(works)
     }
-    return output
+    res.send(output)
 })
 
 function getLetterCounts(str){
